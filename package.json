@@ -1,0 +1,11 @@
+{
+  "name": "backend-api",
+  "version": "1.0.0",
+  "description": "A backend API built using NodeJS to handle user registration and authentication and connected to a secure database",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Matthew Arofin",
+  "license": "ISC"
+}
