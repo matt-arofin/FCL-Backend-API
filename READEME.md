@@ -7,6 +7,8 @@ Design and build a RESTful User Management API with the following CRUD functions
 - User profile retrieval: Clients with a valid jwt should be able to view their user information as a response (Read route, auth protected)
 - User profile update: Clients with a valid jwt should be able to edit and update their user information on the database and get their updated credentials back as a response - consider adding password update functionality (Update route)
 
+## Plan
+
 ### Stretch Goals:
 - Password change functionality
 - Logout functionality
