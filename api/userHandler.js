@@ -1,4 +1,4 @@
-import User from "userModel.js";
+import User from "./userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -46,13 +46,13 @@ const authenticateUser = async (req, res) => {
 		}
 
 		// Compare the provided password with the stored hash
-		const isPasswordMatch = await bcrypt.compare(password, user.password);
+		const isPasswordMatch = bcrypt.compareSync(password, user.password);
 		if (!isPasswordMatch) {
 			return res.status(401).json({ error: "Invalid credentials" });
 		}
 
 		// Generate a JWT token !!! What is a secret key
-		const token = jwt.sign({ userId: user._id }, "PrivateKey", {
+		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
 			expiresIn: "3h",
 		});
 

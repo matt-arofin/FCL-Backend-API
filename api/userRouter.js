@@ -1,20 +1,15 @@
-/* 
-POST register user
-POST Login user
-GET retrieve user
-PUT update user
-*/
-
+import controllers from './userHandler.js';
 import express from "express";
+import { validateToken, errorHandler } from './userMiddleware.js';
 
 const router = express.Router();
 
-// const { registerUser, authenticateUser, getProfile, updateProfile } = controllers;
+const { registerUser, authenticateUser, getProfile, updateProfile } = controllers;
 
-// Register User
 router.post('/register', registerUser);
 router.post('/login', authenticateUser);
-router.get('/register', getProfile);
-router.put('/profile', updateProfile);
+router.get('/register', validateToken, getProfile);
+router.put('/profile', validateToken, updateProfile);
+router.use(errorHandler);
 
 export default router;

@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
+import mongoose from 'mongoose';
+import userRouter from './api/userRouter.js'
 
 
 // CONFIGURATIONS
@@ -17,5 +19,21 @@ server.use(cors());
 // ROUTES
 // server.use('/api/users', userRouter);
 
+// DATABASE
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+  }
+}
+
+connectDB();
+
 const PORT = process.env.PORT || 9000;
 server.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
+
