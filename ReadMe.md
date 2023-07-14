@@ -13,8 +13,18 @@ The server can be started using the command `npm run start` in your terminal, af
 While the server is running, documentation for each endpoint can be viewed via a web browser using `http://localhost:1337/docs`.
 
 ## Build notes & justifications
-Passwords are hashed using the bcrypt algorithm with an adjustable factor for enhanced security. Salting was considered in addition to this, however hashing proved most expedient to implement on its own within the given timeframe.
+Passwords are hashed using the bcrypt algorithm with an adjustable factor for enhanced security. Salting was considered in addition to this, however it proved most expedient to implement hashing on its own within the given timeframe.
 
 Authentication and session management are handled using signed JWTs that are issued on successful login request and remain valid for up to 3 hours. Endpoints for both fetching and updating user information then validate the the token before responding to any requests. 
 
-Environment variables are stored in a hidden file that will not be published publicly when code is being pushed to avoid exposing endpoints when application enters staging and prodution.
+Environment variables are stored in a hidden file that will not be published while code is being pushed to avoid exposing endpoints when application enters staging and prodution.
+
+
+#### Dummy User Entry:
+A dummy user object with the following shape already exists in the MongoDB database for testing to illustrate the way request payloads should be formatted - both usernames and passwords must be at least 8 characters, but passwords are specifically required to be an alphanumeric sequence with at least one of each of the upper and lowercase letter, digit and special character:
+
+{
+  email: test@email.com,
+  username: testUser,
+  password: Abc123!!,
+}

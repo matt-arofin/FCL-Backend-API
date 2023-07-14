@@ -22,7 +22,7 @@ server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // ROUTES
 server.use('/api', userRouter);
 
-// DATABASE
+// DATABASE CONNECTION
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL, {
@@ -33,9 +33,10 @@ const connectDB = async () => {
     console.error('Error connecting to MongoDB:', error);
     process.exit(1);
   }
-}
+};
 
 connectDB();
+
 
 const PORT = process.env.PORT || 9000;
 server.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));

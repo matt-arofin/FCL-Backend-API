@@ -1,7 +1,5 @@
-// build out validation and authenticaion logic here
 import jwt from 'jsonwebtoken';
 
-// Authentication middleware
 export const validateToken = (req, res, next) => {
   // validate JWT and call next if present and valid, else return error
   try {
