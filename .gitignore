@@ -1,2 +1,7 @@
 .env
+.gitattributes
 node_modules
+keyGenerator.js
+*.test.js
+*.config.js
+userAuth.js

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import mongoose from 'mongoose';
 import userRouter from './api/userRouter.js'
+import { jwksMiddleware } from './keyGenerator.js'
 
 
 // CONFIGURATIONS
@@ -17,7 +18,8 @@ server.use(cors());
 // server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ROUTES
-// server.use('/api/users', userRouter);
+server.use('/api', userRouter);
+server.use('/jwt/jwks.json', jwksMiddleware);
 
 // DATABASE
 const connectDB = async () => {
