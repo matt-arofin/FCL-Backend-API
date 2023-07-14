@@ -4,8 +4,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import mongoose from 'mongoose';
-import userRouter from './api/userRouter.js'
-import { jwksMiddleware } from './keyGenerator.js'
+import userRouter from './api/userRouter.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swagger.js';
 
 
 // CONFIGURATIONS
@@ -16,11 +17,10 @@ server.use(express.json());
 server.use(helmet());
 server.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin"}));
 server.use(cors());
-// server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ROUTES
 server.use('/api', userRouter);
-server.use('/jwt/jwks.json', jwksMiddleware);
 
 // DATABASE
 const connectDB = async () => {
@@ -40,3 +40,4 @@ connectDB();
 const PORT = process.env.PORT || 9000;
 server.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
 
+export default server;

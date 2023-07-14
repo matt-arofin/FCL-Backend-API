@@ -29,9 +29,3 @@ export const errorHandler = (err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Internal server error' });
 };
-
-// Authorization middleware
-// const authorizeUser = (req, res, next) => {
-  // if user is authorised to perform function, call next, else return error -- should only allow one user to see their own details
-  // next();
-// }

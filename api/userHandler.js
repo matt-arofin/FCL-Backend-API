@@ -2,6 +2,66 @@ import User from "./userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+/**
+ * @swagger
+ * /api/register:
+ *   post:
+ *     summary: Register a new user
+ *     description: Creates a new user with the provided username, email, and password.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username of the user.
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email address of the user.
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: The password of the user.
+ *             required:
+ *               - username
+ *               - email
+ *               - password
+ *     responses:
+ *       201:
+ *         description: User registration successful.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Success message.
+ *       400:
+ *         description: Bad request.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ */
 const registerUser = async (req, res) => {
 	try {
 		const { username, email, password } = req.body;
@@ -40,7 +100,74 @@ const registerUser = async (req, res) => {
 	}
 };
 
-// User authentication controller - returns an Authorization token and welcome message
+/**
+ * @swagger
+ * /api/authenticate:
+ *   post:
+ *     summary: Authenticate user
+ *     description: Authenticates a user with the provided username and password.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username of the user.
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: The password of the user.
+ *             required:
+ *               - username
+ *               - password
+ *     responses:
+ *       200:
+ *         description: User authentication successful.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for authenticated user.
+ *                 message:
+ *                   type: string
+ *                   description: Success message.
+ *       401:
+ *         description: Unauthorized.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *       404:
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ */
 const authenticateUser = async (req, res) => {
 	try {
 		const { username, password } = req.body;
@@ -69,7 +196,56 @@ const authenticateUser = async (req, res) => {
 	}
 };
 
-// User profile retrieval controller - returns user information with valid token
+/**
+ * @swagger
+ * /api/profile/{id}:
+ *   get:
+ *     summary: Get user profile
+ *     description: Retrieves the profile information of the authenticated user.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user profile to be displayed.
+ *     responses:
+ *       200:
+ *         description: User profile retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 username:
+ *                   type: string
+ *                   description: The username of the user.
+ *                 email:
+ *                   type: string
+ *                   description: The email of the user.
+ *       401:
+ *         description: Unauthorized.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ */
 const getProfile = async (req, res) => {
 	const userId = req.user.userId;
 
@@ -86,7 +262,81 @@ const getProfile = async (req, res) => {
 	}
 };
 
-// User profile update controller - returns updated user information with valid token and valid request payload
+/**
+ * @swagger
+ * /api/profile/{id}/update:
+ *   put:
+ *     summary: Update user profile
+ *     description: Updates the profile information of the authenticated user.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user profile to update.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The new username for the user.
+ *               email:
+ *                 type: string
+ *                 description: The new email for the user.
+ *               password:
+ *                 type: string
+ *                 description: The new password for the user.
+ *     responses:
+ *       200:
+ *         description: User profile updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Success message.
+ *                 updatedUser:
+ *                   type: object
+ *                   properties:
+ *                     username:
+ *                       type: string
+ *                       description: The updated username of the user.
+ *                     email:
+ *                       type: string
+ *                       description: The updated email of the user.
+ *                     password:
+ *                       type: string
+ *                       description: The updated password of the user.
+ *       401:
+ *         description: Unauthorized.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ */
 const updateProfile = async (req, res) => {
 	try {
 		const userId = req.user.userId;
@@ -107,7 +357,7 @@ const updateProfile = async (req, res) => {
 		// Update the user profile in the database
 		await user.save();
 
-		return res.status(200).json({ message: "User profile updated successfully", updatedUser: user });
+		return res.status(200).json({ message: "User profile updated successfully", updatedUser: {username: user.username, email: user.email, password} });
 	} catch (error) {
 		console.error("Error updating user profile:", error);
 		return res.status(500).json({ error: "Internal server error" });

@@ -1,8 +1,11 @@
 .env
+.babelrc
 .gitattributes
 node_modules
 keyGenerator.js
+userAuth.js
+swagger.js
+planning.md
 *.test.js
 *.config.js
-userAuth.js
-planning.md
+*.setup.js
