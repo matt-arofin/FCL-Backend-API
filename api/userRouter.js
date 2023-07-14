@@ -8,8 +8,8 @@ const { registerUser, authenticateUser, getProfile, updateProfile } = controller
 
 router.post('/register', registerUser);
 router.post('/login', authenticateUser);
-router.get('/register', validateToken, getProfile);
-router.put('/profile', validateToken, updateProfile);
+router.get('/profile/:id', validateToken, getProfile);
+router.put('/profile/:id/update', validateToken, updateProfile);
 router.use(errorHandler);
 
 export default router;

@@ -1,6 +1,5 @@
 // build out validation and authenticaion logic here
 import jwt from 'jsonwebtoken';
-import { jwtSecret } from '../userAuth.js';
 
 // Authentication middleware
 export const validateToken = (req, res, next) => {
@@ -12,10 +11,9 @@ export const validateToken = (req, res, next) => {
       return res.status(401).json({ error: 'Unauthorized action'})
     }
 
-    const decoded = jwt.verify(token, jwtSecret);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     req.user = decoded;
-
     next()
   } catch (error) {
     if(error.name === 'JsonWebTokenError') {

@@ -5,3 +5,4 @@ keyGenerator.js
 *.test.js
 *.config.js
 userAuth.js
+planning.md
